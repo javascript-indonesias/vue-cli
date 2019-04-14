@@ -1,4 +1,4 @@
-const { hasProjectYarn, execa } = require('@vue/cli-shared-utils')
+const { hasProjectYarn, hasProjectPnpm, execa } = require('@vue/cli-shared-utils')
 
 const severity = {
   critical: 0,
@@ -9,7 +9,7 @@ const severity = {
 
 exports.auditProject = async function (cwd) {
   try {
-    if (hasProjectYarn) {
+    if (hasProjectYarn(cwd)) {
       const child = await execa('yarn', [
         'audit',
         '--json',
@@ -106,6 +106,15 @@ exports.auditProject = async function (cwd) {
       return {
         status,
         details
+      }
+    } else if (hasProjectPnpm(cwd)) {
+      // TODO pnpm audit
+      return {
+        status: {
+          status: 'error',
+          message: 'Not implemented for PNPM projects yet'
+        },
+        details: null
       }
     } else {
       // TODO NPM audit

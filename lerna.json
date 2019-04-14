@@ -1,7 +1,7 @@
 {
   "npmClient": "yarn",
   "useWorkspaces": false,
-  "version": "3.5.5",
+  "version": "3.6.1",
   "packages": [
     "packages/@vue/babel-preset-app",
     "packages/@vue/cli*"
@@ -16,7 +16,6 @@
       "PR: Internal": ":house: Internal",
       "PR: Underlying Tools": ":hammer: Underlying Tools"
     },
-    "cacheDir": ".changelog",
-    "nextVersionFromMetadata": true
+    "cacheDir": ".changelog"
   }
 }
