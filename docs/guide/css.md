@@ -89,13 +89,13 @@ import styles from './foo.module.css'
 import sassStyles from './foo.module.scss'
 ```
 
-If you want to drop the `.module` in the filenames, set `css.modules` to `true` in `vue.config.js`:
+If you want to drop the `.module` in the filenames, set `css.requireModuleExtension` to `false` in `vue.config.js`:
 
 ``` js
 // vue.config.js
 module.exports = {
   css: {
-    modules: true
+    requireModuleExtension: false
   }
 }
 ```
@@ -131,9 +131,17 @@ module.exports = {
   css: {
     loaderOptions: {
       // pass options to sass-loader
+      // @/ is an alias to src/
+      // so this assumes you have a file named `src/variables.sass`
       sass: {
-        // @/ is an alias to src/
-        // so this assumes you have a file named `src/variables.scss`
+        data: `@import "~@/variables.sass"`
+      },
+      // by default the `sass` option will apply to both syntaxes
+      // because `scss` syntax is also processed by sass-loader underlyingly
+      // but when configuring the `data` option
+      // `scss` syntax requires an semicolon at the end of a statement, while `sass` syntax requires none
+      // in that case, we can target the `scss` syntax separately using the `scss` option
+      scss: {
         data: `@import "~@/variables.scss";`
       },
       // pass Less.js Options to less-loader

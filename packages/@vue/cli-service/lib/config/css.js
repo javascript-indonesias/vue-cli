@@ -27,6 +27,14 @@ module.exports = (api, rootOptions) => {
       loaderOptions = {}
     } = rootOptions.css || {}
 
+    let { requireModuleExtension } = rootOptions.css || {}
+    if (typeof requireModuleExtension === 'undefined') {
+      if (loaderOptions.css && loaderOptions.css.modules) {
+        throw new Error('`css.requireModuleExtension` is required when custom css modules options provided')
+      }
+      requireModuleExtension = true
+    }
+
     const shouldExtract = extract !== false && !shadowMode
     const filename = getAssetPath(
       rootOptions,
@@ -91,8 +99,7 @@ module.exports = (api, rootOptions) => {
 
       // rules for normal CSS imports
       const normalRule = baseRule.oneOf('normal')
-      const treatAllAsModules = !!(rootOptions.css && rootOptions.css.modules)
-      applyLoaders(normalRule, treatAllAsModules)
+      applyLoaders(normalRule, !requireModuleExtension)
 
       function applyLoaders (rule, isCssModule) {
         if (shouldExtract) {
@@ -127,6 +134,8 @@ module.exports = (api, rootOptions) => {
             localIdentName: '[name]_[local]_[hash:base64:5]',
             ...cssLoaderOptions.modules
           }
+        } else {
+          delete cssLoaderOptions.modules
         }
 
         rule
@@ -162,10 +171,17 @@ module.exports = (api, rootOptions) => {
 
     createCSSRule('css', /\.css$/)
     createCSSRule('postcss', /\.p(ost)?css$/)
-    createCSSRule('scss', /\.scss$/, 'sass-loader', Object.assign(defaultSassLoaderOptions, loaderOptions.sass))
-    createCSSRule('sass', /\.sass$/, 'sass-loader', Object.assign(defaultSassLoaderOptions, {
-      indentedSyntax: true
-    }, loaderOptions.sass))
+    createCSSRule('scss', /\.scss$/, 'sass-loader', Object.assign(
+      defaultSassLoaderOptions,
+      loaderOptions.scss || loaderOptions.sass
+    ))
+    createCSSRule('sass', /\.sass$/, 'sass-loader', Object.assign(
+      defaultSassLoaderOptions,
+      {
+        indentedSyntax: true
+      },
+      loaderOptions.sass
+    ))
     createCSSRule('less', /\.less$/, 'less-loader', loaderOptions.less)
     createCSSRule('stylus', /\.styl(us)?$/, 'stylus-loader', Object.assign({
       preferPathResolver: 'webpack'
