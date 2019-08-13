@@ -78,13 +78,14 @@
     "semver": "^6.1.0",
     "typescript": "^3.4.5",
     "vuepress": "^1.0.1",
-    "webpack": ">=4 < 4.29",
+    "webpack": "^4.0.0",
     "yorkie": "^2.0.0"
   },
   "resolutions": {
     "puppeteer": "1.11.0",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10",
-    "vue-server-renderer": "^2.6.10"
+    "vue-server-renderer": "^2.6.10",
+    "@vuepress/core": "1.0.2"
   }
 }
