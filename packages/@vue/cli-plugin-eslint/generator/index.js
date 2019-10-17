@@ -2,9 +2,6 @@ const fs = require('fs')
 const path = require('path')
 
 module.exports = (api, { config, lintOn = [] }, _, invoking) => {
-  api.assertCliVersion('^4.0.0-alpha.4')
-  api.assertCliServiceVersion('^4.0.0-alpha.4')
-
   if (typeof lintOn === 'string') {
     lintOn = lintOn.split(',')
   }
@@ -106,10 +103,12 @@ module.exports = (api, { config, lintOn = [] }, _, invoking) => {
   }
 }
 
+const lint = require('../lint')
+
 module.exports.hooks = (api) => {
   // lint & fix after create to ensure files adhere to chosen config
   api.afterAnyInvoke(() => {
-    require('../lint')({ silent: true }, api)
+    lint({ silent: true }, api)
   })
 }
 

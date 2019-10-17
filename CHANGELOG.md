@@ -1,3 +1,36 @@
+## 4.0.1 (2019-10-16)
+
+#### :bug: Bug Fix
+
+* `@vue/cli-plugin-eslint`, `@vue/cli-plugin-router`, `@vue/cli-plugin-vuex`, `@vue/cli-service-global`, `@vue/cli-ui-addon-webpack`, `@vue/cli-ui-addon-widgets`, `@vue/cli-ui`, `@vue/cli`
+  * [fec160f](https://github.com/vuejs/vue-cli/commit/fec160ff964964bc71aa857d21d0614284fa2fdb) fix: no need to assertCliVersion. avoid breaking old versions  ([@sodatea](https://github.com/sodatea))
+
+
+## 4.0.0 (2019-10-16)
+
+#### :rocket: New Features
+* `@vue/cli-shared-utils`, `@vue/cli`
+  * [#4677](https://github.com/vuejs/vue-cli/pull/4677) fix: add pnpm v4 support ([@B4rtware](https://github.com/B4rtware))
+
+#### :boom: Breaking Changes
+* `@vue/cli`
+  * [#4681](https://github.com/vuejs/vue-cli/pull/4681) chore!: add `@vue/cli` in `--version` output, to avoid confusion ([@sodatea](https://github.com/sodatea))
+
+#### :bug: Bug Fix
+* `@vue/cli-plugin-babel`
+  * [#4683](https://github.com/vuejs/vue-cli/pull/4683) fix: Corrected typo in babel migrator ([@nblackburn](https://github.com/nblackburn))
+
+#### :memo: Documentation
+* [#2319](https://github.com/vuejs/vue-cli/pull/2319) missing documentation for building with vuex ([@katerlouis](https://github.com/katerlouis))
+
+#### Committers: 5
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+- Maël Nison ([@arcanis](https://github.com/arcanis))
+- Nathaniel Blackburn ([@nblackburn](https://github.com/nblackburn))
+- René Eschke ([@katerlouis](https://github.com/katerlouis))
+- [@B4rtware](https://github.com/B4rtware)
+
+
 
 ## 4.0.0-rc.8 (2019-10-11)
 
