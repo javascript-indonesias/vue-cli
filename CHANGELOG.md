@@ -1,3 +1,44 @@
+
+## 4.0.4 (2019-10-18)
+
+#### :bug: Bug Fix
+* `@vue/cli-service`
+  * [#4711](https://github.com/vuejs/vue-cli/pull/4711) fix: fix a typo that caused router failed to install in older versions ([@sodatea](https://github.com/sodatea))
+
+#### :memo: Documentation
+* [#4702](https://github.com/vuejs/vue-cli/pull/4702) Fix link to eslint PR ([@rmbl](https://github.com/rmbl))
+
+#### Committers: 2
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+- Philipp Gildein ([@rmbl](https://github.com/rmbl))
+
+
+
+## 4.0.3 (2019-10-17)
+
+#### :bug: Bug Fix
+* `@vue/cli-ui`, `@vue/cli`
+  * [#4698](https://github.com/vuejs/vue-cli/pull/4698) fix: fix `vue add router` command in v3 projects ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-service`
+  * [#4696](https://github.com/vuejs/vue-cli/pull/4696) fix: allow v3 cli to invoke vuex & router plugin from inside cli-service ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-plugin-eslint`, `@vue/cli-plugin-typescript`, `@vue/cli-ui`
+  * [#4697](https://github.com/vuejs/vue-cli/pull/4697) fix: fix "lint on commit" projects generation error ([@sodatea](https://github.com/sodatea))
+
+#### Committers: 1
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+
+
+
+## 4.0.2 (2019-10-17)
+
+#### :bug: Bug Fix
+* `@vue/cli-service`
+  * [#4693](https://github.com/vuejs/vue-cli/pull/4693) fix: add a compatibility layer for router & vuex for CLI v3 ([@sodatea](https://github.com/sodatea))
+
+#### Committers: 1
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+
+
 ## 4.0.1 (2019-10-16)
 
 #### :bug: Bug Fix

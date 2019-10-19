@@ -54,6 +54,16 @@ module.exports = (api, options) => {
     })
   }
 
+  // for v3 compatibility
+  if (options.router && !api.hasPlugin('router')) {
+    require('./router')(api, options)
+  }
+
+  // for v3 compatibility
+  if (options.vuex && !api.hasPlugin('vuex')) {
+    require('./vuex')(api)
+  }
+
   // additional tooling configurations
   if (options.configs) {
     api.extendPackage(options.configs)
