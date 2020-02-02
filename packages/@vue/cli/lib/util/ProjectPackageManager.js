@@ -130,7 +130,7 @@ class PackageManager {
 
     if (args.registry) {
       this._registry = args.registry
-    } else if (await shouldUseTaobao(this.bin)) {
+    } else if (!process.env.VUE_CLI_TEST && await shouldUseTaobao(this.bin)) {
       this._registry = registries.taobao
     } else {
       try {
@@ -241,6 +241,14 @@ class PackageManager {
   }
 
   async install () {
+    if (process.env.VUE_CLI_TEST) {
+      try {
+        await this.runCommand([PACKAGE_MANAGER_CONFIG[this.bin].install, '--offline'])
+      } catch (e) {
+        await this.runCommand([PACKAGE_MANAGER_CONFIG[this.bin].install])
+      }
+    }
+
     return this.runCommand([PACKAGE_MANAGER_CONFIG[this.bin].install])
   }
 
