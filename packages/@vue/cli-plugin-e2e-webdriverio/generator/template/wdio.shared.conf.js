@@ -11,6 +11,9 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
   specs: [
+    <%_ if (hasTS) { _%>
+    path.join(__dirname, '/tests/e2e/**/*.spec.ts'),
+    <%_ } _%>
     path.join(__dirname, '/tests/e2e/**/*.spec.js')
   ],
   // Patterns to exclude.
@@ -28,7 +31,7 @@ exports.config = {
   logLevel: 'trace',
   //
   // Set directory to store all logs into
-  outputDir: path.join(__dirname, '/logs'),
+  outputDir: path.join(__dirname, 'tests/e2e/logs'),
   //
   // If you only want to run your tests until a specific amount of tests have failed use
   // bail (default is 0 - don't bail, run all tests).
@@ -61,7 +64,9 @@ exports.config = {
   mochaOpts: {
     ui: 'bdd',
     timeout: 30000,
-    <%- hasTS ? 'require: \'ts-node/register\'' : '' %>
+    <%_ if (hasTS) { _%>
+    require: 'ts-node/register',
+    <%_ } _%>
   },
   //
   // =====
