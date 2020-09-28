@@ -85,9 +85,23 @@ function stripVersion (packageName) {
   return result[1]
 }
 
+// extract the package scope from the full package name
+// the result includes the initial @ character
+function extractPackageScope (packageName) {
+  const scopedNameRegExp = /^(@[^\/]+)\/.*$/
+  const result = packageName.match(scopedNameRegExp)
+
+  if (!result) {
+    return undefined
+  }
+
+  return result[1]
+}
+
 class PackageManager {
   constructor ({ context, forcePackageManager } = {}) {
     this.context = context || process.cwd()
+    this._registries = {}
 
     if (forcePackageManager) {
       this.bin = forcePackageManager
@@ -146,9 +160,10 @@ class PackageManager {
 
   // Any command that implemented registry-related feature should support
   // `-r` / `--registry` option
-  async getRegistry () {
-    if (this._registry) {
-      return this._registry
+  async getRegistry (scope) {
+    const cacheKey = scope || ''
+    if (this._registries[cacheKey]) {
+      return this._registries[cacheKey]
     }
 
     const args = minimist(process.argv, {
@@ -157,24 +172,30 @@ class PackageManager {
       }
     })
 
+    let registry
     if (args.registry) {
-      this._registry = args.registry
+      registry = args.registry
     } else if (!process.env.VUE_CLI_TEST && await shouldUseTaobao(this.bin)) {
-      this._registry = registries.taobao
+      registry = registries.taobao
     } else {
       try {
-        this._registry = (await execa(this.bin, ['config', 'get', 'registry'])).stdout
+        if (scope) {
+          registry = (await execa(this.bin, ['config', 'get', scope + ':registry'])).stdout
+        }
+        if (!registry || registry === 'undefined') {
+          registry = (await execa(this.bin, ['config', 'get', 'registry'])).stdout
+        }
       } catch (e) {
         // Yarn 2 uses `npmRegistryServer` instead of `registry`
-        this._registry = (await execa(this.bin, ['config', 'get', 'npmRegistryServer'])).stdout
+        registry = (await execa(this.bin, ['config', 'get', 'npmRegistryServer'])).stdout
       }
     }
 
-    this._registry = stripAnsi(this._registry).trim()
-    return this._registry
+    this._registries[cacheKey] = stripAnsi(registry).trim()
+    return this._registries[cacheKey]
   }
 
-  async getAuthToken () {
+  async getAuthToken (scope) {
     // get npmrc (https://docs.npmjs.com/configuring-npm/npmrc.html#files)
     const possibleRcPaths = [
       path.resolve(this.context, '.npmrc'),
@@ -197,7 +218,7 @@ class PackageManager {
       }
     }
 
-    const registry = await this.getRegistry()
+    const registry = await this.getRegistry(scope)
     const registryWithoutProtocol = registry
       .replace(/https?:/, '')     // remove leading protocol
       .replace(/([^/])$/, '$1/')  // ensure ending with slash
@@ -225,8 +246,9 @@ class PackageManager {
 
     try {
       // node-sass, chromedriver, etc.
-      const binaryMirrorConfig = await this.getMetadata('binary-mirror-config')
-      const mirrors = binaryMirrorConfig.mirrors.china
+      const binaryMirrorConfigMetadata = await this.getMetadata('binary-mirror-config', { full: true })
+      const latest = binaryMirrorConfigMetadata['dist-tags'] && binaryMirrorConfigMetadata['dist-tags'].latest
+      const mirrors = binaryMirrorConfigMetadata.versions[latest].mirrors.china
       for (const key in mirrors.ENVS) {
         process.env[key] = mirrors.ENVS[key]
       }
@@ -255,8 +277,8 @@ class PackageManager {
 
   // https://github.com/npm/registry/blob/master/docs/responses/package-metadata.md
   async getMetadata (packageName, { full = false } = {}) {
-    const registry = await this.getRegistry()
-    const authToken = await this.getAuthToken()
+    const scope = extractPackageScope(packageName)
+    const registry = await this.getRegistry(scope)
 
     const metadataKey = `${this.bin}-${registry}-${packageName}`
     let metadata = metadataCache.get(metadataKey)
@@ -270,6 +292,7 @@ class PackageManager {
       headers.Accept = 'application/vnd.npm.install-v1+json;q=1.0, application/json;q=0.9, */*;q=0.8'
     }
 
+    const authToken = await this.getAuthToken(scope)
     if (authToken) {
       headers.Authorization = `Bearer ${authToken}`
     }
