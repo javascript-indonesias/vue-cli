@@ -41,6 +41,10 @@ If you want to migrate manually and gradually, you can run `vue upgrade <the-plu
 
 ### The `vue` Command (The Global `@vue/cli` Package)
 
+The [instant prototyping functionalities](https://v4.cli.vuejs.org/guide/prototyping.html) are removed. Now the `vue serve` / `vue build` commands are aliases to `npm run serve` / `npm run build`, which in turn execute the scripts specified in the project `package.json`.
+
+If you need a minimum setup for developing standalone `.vue` components, please use [`vite`](https://github.com/vitejs/vite/#readme) instead.
+
 ### `@vue/cli-service`
 
 #### Webpack 5
@@ -75,6 +79,7 @@ Though it works in all our tests, please be aware that this approach is still so
 #### Underlying Loaders and Plugins
 
 * `html-webpack-plugin` is upgraded from v3 to v4, see more details in the [release announcement](https://dev.to/jantimon/html-webpack-plugin-4-has-been-released-125d).
+* `postcss-loader` is upgraded from v3 to v4. Most notably, `PostCSS` options (`plugin` / `syntax` / `parser` / `stringifier`) are moved into the `postcssOptions` field. More details available at the [changelog](https://github.com/webpack-contrib/postcss-loader/blob/master/CHANGELOG.md#400-2020-09-07).
 * `copy-webpack-plugin` is upgraded from v5 to v6. If you never customized its config through `config.plugin('copy')`, there should be no user-facing breaking changes. A full list of breaking changes is available at [`copy-webpack-plugin` v6.0.0 release](https://github.com/webpack-contrib/copy-webpack-plugin/releases/tag/v6.0.0).
 * `file-loader` is upgraded from v4 to v6, and `url-loader` from v2 to v4. The `esModule` option is now turned on by default for non-Vue-2 projects. Full changelog available at [`file-loader` changelog](https://github.com/webpack-contrib/file-loader/blob/master/CHANGELOG.md) and [`url-loader` changelog](https://github.com/webpack-contrib/url-loader/blob/master/CHANGELOG.md)
 * `terser-webpack-plugin` is upgraded from v2 to v4, using terser 5 and some there are some changes in the options format. See full details in its [changelog](https://github.com/webpack-contrib/terser-webpack-plugin/blob/master/CHANGELOG.md#400-2020-08-04).
@@ -100,6 +105,12 @@ Please consider switching to ESLint. You can check out [`tslint-to-eslint-config
 
 * Cypress is required as a peer dependency.
 * Cypress is updated from v3 to v5. See [Cypress Migration Guide](https://docs.cypress.io/guides/references/migration-guide.html) for detailed instructions of the migration process.
+
+### Unit-Jest Plugin
+
+* The underlying `jest`-related packages are upgraded from v24 to v26. For most users the transition would be seamless. See their corresponding changelogs for more detail:
+  * [jest, babel-jest](https://github.com/facebook/jest/blob/v26.6.3/CHANGELOG.md)
+  * [ts-jest](https://github.com/kulshekhar/ts-jest/blob/v26.4.4/CHANGELOG.md)
 
 ### Unit-Mocha Plugin
 
