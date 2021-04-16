@@ -33,6 +33,16 @@ module.exports = (api, options) => {
         .filename(outputFilename)
         .chunkFilename(outputFilename)
 
+    const webpack = require('webpack')
+    const { semver } = require('@vue/cli-shared-utils')
+    const webpackMajor = semver.major(webpack.version)
+    if (webpackMajor !== 4) {
+      // FIXME: a temporary workaround to get accurate contenthash in `applyLegacy`
+      // Should use a better fix per discussions at <https://github.com/jantimon/html-webpack-plugin/issues/1554#issuecomment-753653580>
+      webpackConfig.optimization
+        .set('realContentHash', false)
+    }
+
     // code splitting
     if (process.env.NODE_ENV !== 'test') {
       webpackConfig.optimization.splitChunks({
@@ -163,15 +173,19 @@ module.exports = (api, options) => {
         const entries = Array.isArray(entry) ? entry : [entry]
         webpackConfig.entry(name).merge(entries.map(e => api.resolve(e)))
 
+        // trim inline loader
+        // * See https://github.com/jantimon/html-webpack-plugin/blob/master/docs/template-option.md#2-setting-a-loader-directly-for-the-template
+        const templateWithoutLoader = template.replace(/^.+!/, '').replace(/\?.+$/, '')
+
         // resolve page index template
-        const hasDedicatedTemplate = fs.existsSync(api.resolve(template))
+        const hasDedicatedTemplate = fs.existsSync(api.resolve(templateWithoutLoader))
         const templatePath = hasDedicatedTemplate
           ? template
           : fs.existsSync(htmlPath)
             ? htmlPath
             : defaultHtmlPath
 
-        publicCopyIgnore.push(api.resolve(templatePath).replace(/\\/g, '/'))
+        publicCopyIgnore.push(api.resolve(templateWithoutLoader).replace(/\\/g, '/'))
 
         // inject html plugin for the page
         const pageHtmlOptions = Object.assign(
