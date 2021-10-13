@@ -6,10 +6,9 @@ const PluginAPI = require('./PluginAPI')
 const dotenv = require('dotenv')
 const dotenvExpand = require('dotenv-expand')
 const defaultsDeep = require('lodash.defaultsdeep')
-const { warn, error, isPlugin, resolvePluginId, loadModule, resolvePkg, resolveModule } = require('@vue/cli-shared-utils')
+const { warn, error, isPlugin, resolvePluginId, loadModule, resolvePkg, resolveModule, sortPlugins } = require('@vue/cli-shared-utils')
 
 const { defaults } = require('./options')
-const checkWebpack = require('./util/checkWebpack')
 const loadFileConfig = require('./util/loadFileConfig')
 const resolveUserConfig = require('./util/resolveUserConfig')
 
@@ -17,8 +16,6 @@ const resolveUserConfig = require('./util/resolveUserConfig')
 const isPromise = p => p && typeof p.then === 'function'
 module.exports = class Service {
   constructor (context, { plugins, pkg, inlineOptions, useBuiltIn } = {}) {
-    checkWebpack(context)
-
     process.VUE_CLI_SERVICE = this
     this.initialized = false
     this.context = context
@@ -199,17 +196,6 @@ module.exports = class Service {
           }
         })
 
-      // Add the plugin automatically to simplify the webpack-4 tests
-      // so that a simple Jest alias would suffice, avoid changing every
-      // preset used in the tests
-      if (
-        process.env.VUE_CLI_TEST &&
-        process.env.VUE_CLI_USE_WEBPACK4 &&
-        !projectPlugins.some((p) => p.id === '@vue/cli-plugin-webpack-4')
-      ) {
-        builtInPlugins.push(idToPlugin('@vue/cli-plugin-webpack-4'))
-      }
-
       plugins = builtInPlugins.concat(projectPlugins)
     }
 
@@ -224,8 +210,12 @@ module.exports = class Service {
         apply: loadModule(`./${file}`, this.pkgContext)
       })))
     }
+    debug('vue:plugins')(plugins)
 
-    return plugins
+    const orderedPlugins = sortPlugins(plugins)
+    debug('vue:plugins-ordered')(orderedPlugins)
+
+    return orderedPlugins
   }
 
   async run (name, args = {}, rawArgv = []) {

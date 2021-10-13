@@ -1,4 +1,159 @@
 
+## 5.0.0-beta.5 (2021-10-10)
+
+#### :rocket: New Features
+* `@vue/cli-plugin-eslint`, `@vue/cli-service`
+  * [#6714](https://github.com/vuejs/vue-cli/pull/6714) feat(cli-plugin-eslint): use ESLint class instead of CLIEngine ([@ota-meshi](https://github.com/ota-meshi))
+
+#### :boom: Breaking Changes
+* `@vue/cli-plugin-e2e-webdriverio`
+  * [#6695](https://github.com/vuejs/vue-cli/pull/6695) refactor(webdriverio)!: don't include sync API support by default ([@sodatea](https://github.com/sodatea))
+
+#### Committers: 3
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+- Yosuke Ota ([@ota-meshi](https://github.com/ota-meshi))
+- [@zj9495](https://github.com/zj9495)
+
+
+
+## 5.0.0-beta.4 (2021-09-15)
+
+#### :rocket: New Features
+* `@vue/cli-plugin-typescript`, `@vue/cli-plugin-unit-jest`
+  * [#6627](https://github.com/vuejs/vue-cli/pull/6627) feat: update jest to v27 ([@cexbrayat](https://github.com/cexbrayat))
+* `@vue/cli-plugin-eslint`, `@vue/cli-service`, `@vue/cli-test-utils`
+  * [#6669](https://github.com/vuejs/vue-cli/pull/6669) feat!: upgrade to webpack-dev-server v4 ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-plugin-babel`, `@vue/cli-plugin-eslint`
+  * [#6663](https://github.com/vuejs/vue-cli/pull/6663) feat: generate projects with `transpileDependencies: true` by default ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-plugin-e2e-cypress`
+  * [#6662](https://github.com/vuejs/vue-cli/pull/6662) feat!: update cypress to 8.3 and require it to be a peer dependency ([@sodatea](https://github.com/sodatea))
+
+#### :boom: Breaking Changes
+* `@vue/cli-plugin-typescript`, `@vue/cli-plugin-unit-jest`
+  * [#6627](https://github.com/vuejs/vue-cli/pull/6627) feat: update jest to v27 ([@cexbrayat](https://github.com/cexbrayat))
+* `@vue/cli-plugin-eslint`, `@vue/cli-service`, `@vue/cli-test-utils`
+  * [#6669](https://github.com/vuejs/vue-cli/pull/6669) feat!: upgrade to webpack-dev-server v4 ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-plugin-e2e-cypress`
+  * [#6662](https://github.com/vuejs/vue-cli/pull/6662) feat!: update cypress to 8.3 and require it to be a peer dependency ([@sodatea](https://github.com/sodatea))
+
+#### :bug: Bug Fix
+* `@vue/cli-service`
+  * [#6665](https://github.com/vuejs/vue-cli/pull/6665) fix: avoid copy-webpack plugin errors in module mode ([@sodatea](https://github.com/sodatea))
+  * [#6645](https://github.com/vuejs/vue-cli/pull/6645) fix(cli-service): wrong property name (typo) ([@Vinsea](https://github.com/Vinsea))
+
+#### :memo: Documentation
+* [#6653](https://github.com/vuejs/vue-cli/pull/6653) docs: recommend SFC playground and StackBlitz for instant prototyping ([@sodatea](https://github.com/sodatea))
+
+#### :house: Internal
+* `@vue/cli-plugin-pwa`, `@vue/cli-service`
+  * [#6638](https://github.com/vuejs/vue-cli/pull/6638) refactor: remove redundant Webpack version checks ([@KubesDavid](https://github.com/KubesDavid))
+* `@vue/cli-ui`
+  * [#6635](https://github.com/vuejs/vue-cli/pull/6635) fix(ui): stop depending on the `watch` package ([@sodatea](https://github.com/sodatea))
+
+#### Committers: 4
+- Cédric Exbrayat ([@cexbrayat](https://github.com/cexbrayat))
+- David Kubeš ([@KubesDavid](https://github.com/KubesDavid))
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+- Vinsea ([@Vinsea](https://github.com/Vinsea))
+
+
+
+## 5.0.0-beta.3 (2021-08-10)
+
+#### :rocket: New Features
+* `@vue/cli-plugin-unit-jest`
+  * [#6625](https://github.com/vuejs/vue-cli/pull/6625) feat(unit-jest): add jest as a peer dependency ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-service`
+  * [#6530](https://github.com/vuejs/vue-cli/pull/6530) feat(cli-service): add support new image format avif ([@muhamadamin1992](https://github.com/muhamadamin1992))
+
+#### :boom: Breaking Changes
+* `@vue/cli-plugin-webpack-4`, `@vue/cli-service`
+  * [#6598](https://github.com/vuejs/vue-cli/pull/6598) chore!: drop webpack-4 support in v5 ([@sodatea](https://github.com/sodatea))
+
+#### :bug: Bug Fix
+* `@vue/cli-service`
+  * [#6597](https://github.com/vuejs/vue-cli/pull/6597) fix: mark `sideEffects: true` for styles in Vue components ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-plugin-unit-mocha`
+  * [#6560](https://github.com/vuejs/vue-cli/pull/6560) fix(mocha): do not ignore JavaScript tests when TypeScript plugin is installed ([@j-a-m-l](https://github.com/j-a-m-l))
+
+#### :memo: Documentation
+* `@vue/cli`
+  * [#6589](https://github.com/vuejs/vue-cli/pull/6589) Fix command description typo ([@martiliones](https://github.com/martiliones))
+
+#### Committers: 4
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+- Juan ([@j-a-m-l](https://github.com/j-a-m-l))
+- Muhammadamin ([@muhamadamin1992](https://github.com/muhamadamin1992))
+- martiliones ([@martiliones](https://github.com/martiliones))
+
+
+
+## 5.0.0-beta.2 (2021-06-09)
+
+#### :rocket: New Features
+* `@vue/cli-plugin-typescript`, `@vue/cli-service`, `@vue/cli-shared-utils`, `@vue/cli`
+  * [#6411](https://github.com/vuejs/vue-cli/pull/6411) feat: implement plugin execution order ([@fangbinwei](https://github.com/fangbinwei))
+
+#### :bug: Bug Fix
+* `@vue/cli-plugin-pwa`
+  * [#6518](https://github.com/vuejs/vue-cli/pull/6518) fix(pwa): Replace closeTag parameter with voidTag for HtmlWebpackPlugin ([@tcitworld](https://github.com/tcitworld))
+* `@vue/cli-service`
+  * [#6506](https://github.com/vuejs/vue-cli/pull/6506) fix(webpack): slash on publicPath: 'auto' ([@tomicakr](https://github.com/tomicakr))
+* `@vue/cli-plugin-unit-mocha`
+  * [#6478](https://github.com/vuejs/vue-cli/pull/6478) fix(mocha): set mode to `none` to avoid DefinePlugin conflict ([@sodatea](https://github.com/sodatea))
+
+#### :memo: Documentation
+* [#6493](https://github.com/vuejs/vue-cli/pull/6493) Fixed some minor typos ([@Ashikpaul](https://github.com/Ashikpaul))
+* [#6487](https://github.com/vuejs/vue-cli/pull/6487) update deployment.md ([@andydodo](https://github.com/andydodo))
+
+#### :house: Internal
+* `@vue/cli-service`
+  * [#6519](https://github.com/vuejs/vue-cli/pull/6519) chore: use scoped package names for aliases ([@sodatea](https://github.com/sodatea))
+
+#### Committers: 6
+- Andy Do ([@andydodo](https://github.com/andydodo))
+- Ashik Paul ([@Ashikpaul](https://github.com/Ashikpaul))
+- Binwei Fang ([@fangbinwei](https://github.com/fangbinwei))
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+- Thomas Citharel ([@tcitworld](https://github.com/tcitworld))
+- tomica ([@tomicakr](https://github.com/tomicakr))
+
+
+
+## 5.0.0-beta.1 (2021-05-14)
+
+#### :rocket: New Features
+* `@vue/cli-service`
+  * [#6472](https://github.com/vuejs/vue-cli/pull/6472) Feature: add "tags" part to htmlWebpackPlugin ([@TimmersThomas](https://github.com/TimmersThomas))
+* `@vue/cli-plugin-unit-mocha`
+  * [#6471](https://github.com/vuejs/vue-cli/pull/6471) feat: support webpack 5 in unit-mocha plugin ([@sodatea](https://github.com/sodatea))
+
+#### :boom: Breaking Changes
+* `@vue/cli-ui`
+  * [#6443](https://github.com/vuejs/vue-cli/pull/6443) fix!: keep project name validation rules in sync between UI and CLI ([@sodatea](https://github.com/sodatea))
+
+#### :bug: Bug Fix
+* `@vue/cli-service`
+  * [#6470](https://github.com/vuejs/vue-cli/pull/6470) fix(SafariNomoduleFixPlugin): use RawSource instead of a plain object ([@KaelWD](https://github.com/KaelWD))
+* `@vue/cli-plugin-typescript`
+  * [#6456](https://github.com/vuejs/vue-cli/pull/6456) fix(typescript): add missing dependencies and `require.resolve` compiler ([@merceyz](https://github.com/merceyz))
+* `@vue/cli-ui`
+  * [#6443](https://github.com/vuejs/vue-cli/pull/6443) fix!: keep project name validation rules in sync between UI and CLI ([@sodatea](https://github.com/sodatea))
+* `@vue/cli-plugin-unit-jest`
+  * [#6454](https://github.com/vuejs/vue-cli/pull/6454) fix: fix jest migrator dependency merging ([@sodatea](https://github.com/sodatea))
+
+#### :house: Internal
+* `@vue/cli-ui`
+  * [#6446](https://github.com/vuejs/vue-cli/pull/6446) ci: fix random failing ui tests ([@sodatea](https://github.com/sodatea))
+
+#### Committers: 4
+- Haoqun Jiang ([@sodatea](https://github.com/sodatea))
+- Kael ([@KaelWD](https://github.com/KaelWD))
+- Kristoffer K. ([@merceyz](https://github.com/merceyz))
+- Thomas Timmers ([@TimmersThomas](https://github.com/TimmersThomas))
+
+
+
 ## 5.0.0-beta.0 (2021-04-25)
 
 #### :rocket: New Features

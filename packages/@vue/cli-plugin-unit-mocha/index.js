@@ -1,6 +1,8 @@
 module.exports = api => {
   api.chainWebpack(webpackConfig => {
     if (process.env.NODE_ENV === 'test') {
+      webpackConfig.mode('none')
+
       webpackConfig.merge({
         target: 'node',
         devtool: 'inline-cheap-module-source-map'
@@ -71,7 +73,7 @@ module.exports = api => {
         ? []
         : [
           api.hasPlugin('typescript')
-            ? `tests/unit/**/*.spec.ts`
+            ? `tests/unit/**/*.spec.[jt]s`
             : `tests/unit/**/*.spec.js`
         ])
     ]

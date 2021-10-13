@@ -227,7 +227,7 @@ test('should persist cache', async () => {
   expect(has('node_modules/.cache/eslint/cache.json')).toBe(true)
 })
 
-test(`should use formatter 'codeframe'`, async () => {
+test.skip(`should use formatter 'codeframe'`, async () => {
   const project = await create('eslint-formatter-codeframe', {
     plugins: {
       '@vue/cli-plugin-babel': {},
@@ -260,7 +260,8 @@ test(`should use formatter 'codeframe'`, async () => {
     } else if (data.match(/semi/)) {
       // check the format of output
       // https://eslint.org/docs/user-guide/formatters/#codeframe
-      expect(data).toMatch(`error: Missing semicolon (semi) at src${path.sep}main.js`)
+      expect(data).toMatch(`error`)
+      expect(data).toMatch(`Missing semicolon (semi) at src${path.sep}main.js`)
 
       server.stdin.write('close')
       done()
@@ -268,4 +269,54 @@ test(`should use formatter 'codeframe'`, async () => {
   })
 
   await donePromise
+})
+
+test(`should work with eslint v8`, async () => {
+  const project = await create('eslint-v8', {
+    plugins: {
+      '@vue/cli-plugin-babel': {},
+      '@vue/cli-plugin-eslint': {
+        config: 'airbnb',
+        lintOn: 'save'
+      }
+    }
+  })
+  const { read, write, run } = project
+  await run('npm add -D eslint@^8.0.0-0 eslint-formatter-codeframe')
+  // should've applied airbnb autofix
+  const main = await read('src/main.js')
+  expect(main).toMatch(';')
+  // remove semicolons
+  const updatedMain = main.replace(/;/g, '')
+  await write('src/main.js', updatedMain)
+  // lint
+  await run('vue-cli-service lint')
+  expect(await read('src/main.js')).toMatch(';')
+})
+
+test(`should work with eslint args`, async () => {
+  const project = await create('eslint-with-args', {
+    plugins: {
+      '@vue/cli-plugin-babel': {},
+      '@vue/cli-plugin-eslint': {
+        config: 'airbnb',
+        lintOn: 'save'
+      }
+    }
+  })
+  const { read, write, run } = project
+  await write('src/main.js', `
+foo() // Check for apply --global
+$('hi!') // Check for apply --env
+foo=42
+`)
+  // result file name
+  const resultsFile = 'lint_results.json'
+  // lint
+  await run(`vue-cli-service lint --ext .js --plugin vue --env jquery --global foo:true --format json --output-file ${resultsFile}`)
+  expect(await read('src/main.js')).toMatch(';')
+
+  const resultsContents = JSON.parse(await read(resultsFile))
+  const resultForMain = resultsContents.find(({ filePath }) => filePath.endsWith(path.join('src', 'main.js')))
+  expect(resultForMain.messages.length).toBe(0)
 })

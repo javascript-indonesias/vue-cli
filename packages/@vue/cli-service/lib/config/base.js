@@ -1,11 +1,9 @@
 const path = require('path')
-const { semver } = require('@vue/cli-shared-utils')
 
 /** @type {import('@vue/cli-service').ServicePlugin} */
 module.exports = (api, options) => {
   const cwd = api.getCwd()
   const webpack = require('webpack')
-  const webpackMajor = semver.major(webpack.version)
   const vueMajor = require('../util/getVueMajor')(cwd)
 
   api.chainWebpack(webpackConfig => {
@@ -13,12 +11,10 @@ module.exports = (api, options) => {
     const resolveLocal = require('../util/resolveLocal')
 
     // https://github.com/webpack/webpack/issues/11467#issuecomment-691873586
-    if (webpackMajor !== 4) {
-      webpackConfig.module
-        .rule('esm')
-          .test(/\.m?jsx?$/)
-          .resolve.set('fullySpecified', false)
-    }
+    webpackConfig.module
+      .rule('esm')
+        .test(/\.m?jsx?$/)
+        .resolve.set('fullySpecified', false)
 
     webpackConfig
       .mode('development')
@@ -58,7 +54,7 @@ module.exports = (api, options) => {
     if (vueMajor === 2) {
       // for Vue 2 projects
       const vueLoaderCacheConfig = api.genCacheConfig('vue-loader', {
-        'vue-loader': require('vue-loader-v15/package.json').version,
+        'vue-loader': require('@vue/vue-loader-v15/package.json').version,
         '@vue/component-compiler-utils': require('@vue/component-compiler-utils/package.json').version,
         'vue-template-compiler': require('vue-template-compiler/package.json').version
       })
@@ -80,7 +76,7 @@ module.exports = (api, options) => {
             .options(vueLoaderCacheConfig)
             .end()
           .use('vue-loader')
-            .loader(require.resolve('vue-loader-v15'))
+            .loader(require.resolve('@vue/vue-loader-v15'))
             .options(Object.assign({
               compilerOptions: {
                 whitespace: 'condense'
@@ -89,7 +85,7 @@ module.exports = (api, options) => {
 
       webpackConfig
         .plugin('vue-loader')
-          .use(require('vue-loader-v15').VueLoaderPlugin)
+          .use(require('@vue/vue-loader-v15').VueLoaderPlugin)
 
       // some plugins may implicitly relies on the `vue-loader` dependency path name
       // such as vue-cli-plugin-apollo
@@ -143,6 +139,13 @@ module.exports = (api, options) => {
             __VUE_PROD_DEVTOOLS__: 'false'
           }])
     }
+
+    // https://github.com/vuejs/vue-loader/issues/1435#issuecomment-869074949
+    webpackConfig.module
+      .rule('vue-style')
+        .test(/\.vue$/)
+          .resourceQuery(/type=style/)
+            .sideEffects(true)
 
     // Other common pre-processors ---------------------------------------------
     const maybeResolve = name => {
