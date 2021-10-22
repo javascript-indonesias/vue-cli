@@ -1,4 +1,22 @@
 
+## 5.0.0-beta.6 (2021-10-14)
+
+#### :rocket: New Features
+* `@vue/cli-plugin-eslint`, `@vue/cli-service`
+  * [#6748](https://github.com/vuejs/vue-cli/pull/6748) feat: switch to stylish formatter for eslint ([@cexbrayat](https://github.com/cexbrayat))
+
+#### Committers: 1
+- Cédric Exbrayat ([@cexbrayat](https://github.com/cexbrayat))
+
+#### Security Fixes
+
+This version fixed a CORS vulnerability and an XSS vulnerability in Vue CLI UI.
+We recommend all users of `vue ui` to upgrade to this version as soon as possible.
+
+#### Credits:
+Ngo Wei Lin ([@Creastery](https://twitter.com/creastery)) of STAR Labs ([@starlabs_sg](https://twitter.com/starlabs_sg))
+
+
 ## 5.0.0-beta.5 (2021-10-10)
 
 #### :rocket: New Features
@@ -592,6 +610,17 @@
 - Tony Trinh ([@tony19](https://github.com/tony19))
 - Yazhe Wang ([@jeneser](https://github.com/jeneser))
 
+
+
+## 4.5.14 (2021-10-14)
+
+#### Security Fixes
+
+This version fixed a CORS vulnerability and an XSS vulnerability in Vue CLI UI.
+We recommend all users of `vue ui` to upgrade to this version as soon as possible.
+
+#### Credits:
+Ngo Wei Lin ([@Creastery](https://twitter.com/creastery)) of STAR Labs ([@starlabs_sg](https://twitter.com/starlabs_sg))
 
 
 ## 4.5.13 (2021-05-08)
