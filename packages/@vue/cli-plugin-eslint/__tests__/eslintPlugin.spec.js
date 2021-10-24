@@ -227,7 +227,7 @@ test('should persist cache', async () => {
   expect(has('node_modules/.cache/eslint/cache.json')).toBe(true)
 })
 
-test(`should use formatter 'stylish'`, async () => {
+test.skip(`should use formatter 'stylish'`, async () => {
   const project = await create('eslint-formatter-stylish', {
     plugins: {
       '@vue/cli-plugin-babel': {},
@@ -251,23 +251,20 @@ test(`should use formatter 'stylish'`, async () => {
 
   const server = run('vue-cli-service serve')
 
-  let isFirstMsg = true
+  let output = ''
   server.stdout.on('data', data => {
-    data = data.toString()
-    if (isFirstMsg) {
-      expect(data).toMatch(/Failed to compile with \d error/)
-      isFirstMsg = false
-    }
+    output += data.toString()
 
-    if (data.match(/semi/)) {
+    if (/webpack compiled with 1 error/.test(output)) {
+      expect(output).toMatch(/Failed to compile with \d error/)
       // check the format of output
       // https://eslint.org/docs/user-guide/formatters/#stylish
       // it looks like:
       // ERROR in .../packages/test/eslint-formatter-stylish/src/main.js
       // 1:22  error  Missing semicolon  semi
-      expect(data).toMatch(`src${path.sep}main.js`)
-      expect(data).toMatch(`error`)
-      expect(data).toMatch(`Missing semicolon  semi`)
+      expect(output).toMatch(`src${path.sep}main.js`)
+      expect(output).toMatch(`error`)
+      expect(output).toMatch(`Missing semicolon  semi`)
 
       server.stdin.write('close')
       done()
